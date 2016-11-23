@@ -6,6 +6,23 @@ module.exports = {
         path:'public'
     },
     plugins: [
-        new SVGSpritePlugin()
+        new SVGSpritePlugin({
+            source:'./svg/**/*.svg',
+            spriteConfig:{
+                dest:'public/icons',
+                mode:{
+                    symbol:{
+                       sprite:'my-sprite.svg' 
+                    }
+                },
+                shape:{
+                    id:{
+                        generator:'icon-%s'
+                    },
+                    transform:['svgo']
+                }
+            },
+            destination:'icons'
+        })
     ]
 }
