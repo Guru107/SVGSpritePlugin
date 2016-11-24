@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="26px" height="26px" viewBox="0 0 26 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <ellipse id="path-1" cx="12.7321918" cy="23.115942" rx="12.7321918" ry="3.4673913"></ellipse>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="25.4643836" height="6.93478261" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <path d="M12.4129844,24.2528333 C12.4129844,24.2528333 22.9179452,16.4433282 22.9179452,10.0650053 C22.9179452,3.68668238 17.4089858,1.13689124 12.7321918,1.13689124 C8.05539781,1.13689124 2.54643836,3.68668238 2.54643836,10.0650053 C2.54643836,16.4433282 12.4129844,24.2528333 12.4129844,24.2528333 Z" id="path-3"></path>
+        <mask id="mask-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="20.3715069" height="23.115942" fill="white">
+            <use xlink:href="#path-3"></use>
+        </mask>
+        <ellipse id="path-5" cx="12.7321918" cy="10.4021739" rx="5.09287672" ry="4.62318841"></ellipse>
+        <mask id="mask-6" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="10.1857534" height="9.24637681" fill="white">
+            <use xlink:href="#path-5"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Cinema-Listing" transform="translate(-601.000000, -767.000000)" stroke-width="2.29565204" stroke="#2C3E50">
+            <g id="Group-6" transform="translate(-3.000000, 732.000000)">
+                <g id="Group-4">
+                    <g id="#-CARD">
+                        <g id="Group-3" transform="translate(603.529056, 31.000000)">
+                            <g id="Group" transform="translate(0.693223, 3.208333)">
+                                <use id="Oval-23" mask="url(#mask-2)" fill="#FFFFFF" xlink:href="#path-1"></use>
+                                <use id="Oval-21" mask="url(#mask-4)" fill="#FFFFFF" xlink:href="#path-3"></use>
+                                <use id="Oval-22" mask="url(#mask-6)" fill="#FCC04E" xlink:href="#path-5"></use>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
