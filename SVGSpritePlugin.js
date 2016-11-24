@@ -27,7 +27,7 @@ function optimizeAssetsEventCallback(compiler,compilation,assets,done){
         destination = this.options.destination,
         spriteConfig = this.options.spriteConfig,
         manifestFile = this.options.manifestFile || 'svg-assets.json',
-        fullManifestPath = path.join(__dirname,compiler.options.output.path +'/'+ manifestFile),
+        fullManifestPath = path.join(compiler.options.context,compiler.options.output.path +'/'+ manifestFile),
         _self = this,
         manifestExists = fs.existsSync(fullManifestPath)
 
@@ -37,8 +37,9 @@ function optimizeAssetsEventCallback(compiler,compilation,assets,done){
     }
 
     const matchedPaths = glob.sync(source).map(function(files){
-        return path.join(__dirname,files)
+        return path.join(compiler.options.context,files)
     })
+    console.log(matchedPaths)
 
     const spriter = SVGSprite(spriteConfig)
 
