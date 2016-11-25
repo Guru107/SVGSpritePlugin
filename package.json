@@ -4,11 +4,13 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "webpack"
+    "start": "webpack",
+    "dev":"webpack-dev-server"
   },
   "devDependencies": {
     "assets-webpack-plugin": "^3.5.0",
-    "webpack": "2.1.0-beta.27"
+    "webpack": "2.1.0-beta.27",
+    "webpack-dev-server": "2.1.0-beta.12"
   },
   "dependencies": {
     "eslint": "^3.10.2",

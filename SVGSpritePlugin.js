@@ -30,7 +30,7 @@ function optimizeAssetsEventCallback(compiler,compilation,assets,done){
         fullManifestPath = path.join(compiler.options.context,compiler.options.output.path +'/'+ manifestFile),
         _self = this,
         manifestExists = fs.existsSync(fullManifestPath)
-
+        console.log('Manifest Exits: ',manifestExists)
     let manifestObject = {}
     if(manifestExists){
         manifestObject = JSON.parse(fs.readFileSync(fullManifestPath,'utf-8'))
@@ -54,15 +54,15 @@ function optimizeAssetsEventCallback(compiler,compilation,assets,done){
 
         const outputPath = destination ? compiler.options.output.path+'/'+destination : compiler.options.output.path
 
-        compiler.outputFileSystem.mkdir(compiler.options.output.path,function(){
-            compiler.outputFileSystem.mkdir(outputPath,function(){
+
+            compiler.outputFileSystem.mkdirp(outputPath,function(){
                 writeAllFiles.call(_self,compiler,compilation,result,spriteConfig,manifestObject,function(response,manifest){
-                    compiler.outputFileSystem.writeFile(fullManifestPath,JSON.stringify(manifest),function(){
+                    compiler.outputFileSystem.writeFile(fullManifestPath,JSON.stringify(manifest),function(err){
+                        console.log('Manifest: ',manifest)
                         done()
                     })
                 })
             })
-        })
 
     })
 
@@ -81,6 +81,7 @@ function writeAllFiles(compiler,compilation,result,spriteConfig,manifestObject,c
                    tempManifest = Object.assign({},manifestObject,{
                         [spriteConfig.mode[mode].sprite]: publicPath+destination+'/'+result[mode][type].relative
                     })
+                    console.log()
                     deferedArray.push(writeFile(compiler.outputFileSystem,result[mode][type].path,result[mode][type].contents))
                 }
 
@@ -89,6 +90,8 @@ function writeAllFiles(compiler,compilation,result,spriteConfig,manifestObject,c
             })
             Promise.all(deferedArray).then(function(response){
                 callback(response[0],tempManifest)
+            },function(err){
+                console.log(err)
             })
 }
 
