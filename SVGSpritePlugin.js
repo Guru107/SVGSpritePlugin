@@ -50,6 +50,7 @@ function optimizeAssetsEventCallback(compiler,compilation,assets,done){
 
     spriter.compile(function(err,result){
         if(err) {
+            console.error(err)
             throw err
         }
 
@@ -57,12 +58,18 @@ function optimizeAssetsEventCallback(compiler,compilation,assets,done){
 
 
             compiler.outputFileSystem.mkdirp(outputPath,function(err){
-                if(err)
+                if(err){
+                    console.error(err)
                     throw err
+                }
+
                 writeAllFiles.call(_self,compiler,compilation,result,spriteConfig,manifestObject,function(response,manifest){
                     fs.writeFile(fullManifestPath,JSON.stringify(manifest),function(err){
-                        if(err)
+                        if(err){
+                            console.error(err)
                             throw err
+                        }
+
 
                         done()
                     })
@@ -96,8 +103,11 @@ function writeAllFiles(compiler,compilation,result,spriteConfig,manifestObject,c
             Promise.all(deferedArray).then(function(response){
                 callback(response[0],tempManifest)
             },function(err){
-                if(err)
+                if(err){
+                    console.log(err)
                     throw err
+                }
+
             })
 }
 
