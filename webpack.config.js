@@ -3,6 +3,7 @@ var AssetsPlugin = require('assets-webpack-plugin')
 var assetsPluginInstance = new AssetsPlugin({path:'public'})
 
 module.exports = {
+    context:__dirname,
     entry:'./index.js',
     devServer:{
         contentBase:'.',
@@ -23,7 +24,7 @@ module.exports = {
                     symbol:{
                        dest:'.',
                        sprite:'location-sprite.svg',
-                       bust:false
+                       bust:true
                     }
                 },
                 shape:{
@@ -44,7 +45,7 @@ module.exports = {
                     symbol:{
                        dest:'.',
                        sprite:'position-sprite.svg',
-                       bust:false
+                       bust:true
                     }
                 },
                 shape:{

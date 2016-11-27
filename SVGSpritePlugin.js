@@ -8,16 +8,32 @@ function SVGSpritePlugin(options){
 }
 SVGSpritePlugin.prototype.apply = function(compiler) {
 
-
     compiler.plugin('this-compilation',thiscompilationCallback.bind(this,compiler))
+    compiler.plugin('emit',emitEventCallback)
+}
+/**
+ * @func emitEventCallback
+ * @param {Compilation} compilation
+ */
+function emitEventCallback(compilation) {
+
+    console.log('Emit Event')
+    console.log('Assets: ')
+    for(let key in compilation.assets){
+        if(/.svg/.test(key)){
+            console.log(key)
+            console.log(compilation.assets[key].basename())
+        }
+    }
 
 }
 /**
  *
- * @param {object} compiler
- * @param {object} compilation
+ * @param {Compiler} compiler
+ * @param {Compilation} compilation
  */
 function thiscompilationCallback(compiler,compilation) {
+    console.log('this-compilation Event')
     compilation.plugin('optimize-assets',optimizeAssetsEventCallback.bind(this,compiler,compilation))
 }
 
@@ -27,11 +43,11 @@ function optimizeAssetsEventCallback(compiler,compilation,assets,done){
         destination = this.options.destination,
         spriteConfig = this.options.spriteConfig,
         manifestFile = this.options.manifestFile || 'svg-assets.json',
-        fullManifestPath = path.join(compiler.options.output.path +'/'+ manifestFile),
+        fullManifestPath = path.join(compiler.options.context +'/'+ manifestFile),
         _self = this,
         manifestExists = fs.existsSync(fullManifestPath)
-        console.log('Manifest Exits: ',manifestExists)
-        console.log('Manifest File: ',fullManifestPath)
+
+
     let manifestObject = {}
     if(manifestExists){
         manifestObject = JSON.parse(fs.readFileSync(fullManifestPath,'utf-8'))
@@ -40,7 +56,7 @@ function optimizeAssetsEventCallback(compiler,compilation,assets,done){
     const matchedPaths = glob.sync(source).map(function(files){
         return path.join(compiler.options.context,files)
     })
-    console.log(matchedPaths)
+
 
     const spriter = SVGSprite(spriteConfig)
 
@@ -53,29 +69,23 @@ function optimizeAssetsEventCallback(compiler,compilation,assets,done){
             console.error(err)
             throw err
         }
+        for(let type in result) {
+            for(let mode in result[type]){
+                const spriteResult = result[type][mode]
+                const contents = spriteResult.contents.toString('utf-8'),
+                    path = spriteResult.path,
+                    baseName = spriteResult.basename
 
-        const outputPath = destination ? compiler.options.output.path+'/'+destination : compiler.options.output.path
-
-
-            compiler.outputFileSystem.mkdirp(outputPath,function(err){
-                if(err){
-                    console.error(err)
-                    throw err
-                }
-
-                writeAllFiles.call(_self,compiler,compilation,result,spriteConfig,manifestObject,function(response,manifest){
-                    fs.writeFile(fullManifestPath,JSON.stringify(manifest),function(err){
-                        if(err){
-                            console.error(err)
-                            throw err
-                        }
-
-
-                        done()
-                    })
+                compilation.assets = Object.assign({},compilation.assets,{
+                    [spriteConfig.mode[type].sprite]:{
+                        source:() => result[type][mode],
+                        size:() => contents.length,
+                        basename:() => baseName
+                    }
                 })
-            })
-
+            }
+        }
+        done()
     })
 
 }
@@ -96,19 +106,15 @@ function writeAllFiles(compiler,compilation,result,spriteConfig,manifestObject,c
 
                     deferedArray.push(writeFile(compiler.outputFileSystem,result[mode][type].path,result[mode][type].contents))
                 }
-
-
-
             })
-            Promise.all(deferedArray).then(function(response){
-                callback(response[0],tempManifest)
-            },function(err){
-                if(err){
-                    console.log(err)
-                    throw err
-                }
-
-            })
+            // Promise.all(deferedArray).then(function(response){
+            //     callback(response[0],tempManifest)
+            // },function(err){
+            //     if(err){
+            //         console.log(err)
+            //         throw err
+            //     }
+            // })
 }
 
 function writeFile(outputFileSystem,path,contents){
