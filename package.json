@@ -13,7 +13,7 @@
     "webpack-dev-server": "2.1.0-beta.12"
   },
   "dependencies": {
-    "eslint": "^3.10.2",
+    "eslint": "^4.1.0",
     "glob": "^7.1.1",
     "svg-sprite": "^1.3.6"
   }
